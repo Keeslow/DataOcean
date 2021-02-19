@@ -229,11 +229,15 @@ const ProjectDetail = (props) => {
   // };
 
   const getPaymentDateText = (subscription) => {
-    if (subscription.is_default || subscription.status === p2sStatus.PAST) {
+    console.log(subscription);
+    if (subscription.status === p2sStatus.PAST) {
       return '---';
     }
     if (subscription.status === p2sStatus.ACTIVE && hasFutureSubscription) {
       return '---';
+    }
+    if (subscription.is_default && subscription.name === 'Freemium') {
+      return dateFormat(subscription.expiring_date);
     }
     if (subscription.payment_overdue_days !== null) {
       if (subscription.payment_overdue_days === 0) {
@@ -571,12 +575,12 @@ const ProjectDetail = (props) => {
           <table className="table mb-2">
             <thead>
               <tr className="bg-gray-200 text-gray-700">
-                <th className="w-1/5">{t('name')}</th>
-                <th className="w-1/5">{t('status')}</th>
-                <th className="w-1/5">{t('requestsLeft')}</th>
-                <th className="w-1/5">{t('nextPayment')}</th>
+                <th className="w-1/6">{t('name')}</th>
+                <th className="w-1/6">{t('status')}</th>
+                <th className="w-1/6">{t('requestsLeft')}</th>
+                <th className="w-1/6">{t('nextPayment')} / Renewal</th>
                 {project.is_owner && (
-                  <th className="w-1/5">{t('invoices')}</th>
+                  <th className="w-1/6">{t('invoices')}</th>
                 )}
               </tr>
             </thead>
@@ -605,6 +609,8 @@ const ProjectDetail = (props) => {
                   </td>
                   <td className="border-b">{subsStatuses[subscription.status]}</td>
                   <td className="border-b">{subscription.requests_left}</td>
+                  {/* <td className="border-b">{subscription.expiring_date}</td>
+                  <td className="border-b">{subscription.payment_date}</td> */}
                   <td className="border-b">
                     {getPaymentDateText(subscription)}
                   </td>
