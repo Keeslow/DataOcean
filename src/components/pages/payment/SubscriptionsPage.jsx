@@ -13,11 +13,13 @@ import { useFormik } from 'formik';
 import Yup from 'utils/yup';
 import { useSelector } from 'react-redux';
 import toast from 'utils/toast';
+import BasicPlus from '../../icons/BasicPlus';
 
 const icons = [
   Tag,
+  BasicPlus,
   CreditCard,
-  Briefcase,
+  // Briefcase,
   // ShoppingBag,
 ];
 
@@ -242,13 +244,16 @@ const SubscriptionsPage = (props) => {
                     </div>
                     <div className="text-gray-600 px-10 text-center mx-auto mt-2">
                       {sub.description}
+                      {sub.name === 'Basic+' ? `${t('Завантаження повної бази PEP')}` : '' }
                     </div>
                   </div>
                   <div>
                     <div className="subscription-price flex justify-center">
                       <div className="relative text-5xl font-semibold mt-8 mx-auto">
                         {i18n.language === 'en' ? sub.price.toLocaleString('en') : sub.price}
-                        <span className="contents align-top text-xl text-gray-500">₴/{t('abbreviationMonth')}</span>
+                        <span className="contents align-top text-xl text-gray-500">₴/{t('abbreviationMonth')}
+                          {sub.name === 'Basic+' ? <span className="text-red-500">*</span> : ''}
+                        </span>
                       </div>
                     </div>
                     <Button
